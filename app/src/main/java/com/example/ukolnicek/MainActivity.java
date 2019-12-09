@@ -1,6 +1,12 @@
 package com.example.ukolnicek;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -15,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
+
 public class MainActivity extends AppCompatActivity {
     public static final String MY_PREFS = "ukolnicek_prefs";
     public static final String MY_PREFS_LOGIN = "ukolnicek_prefs";
@@ -24,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private Account[] accounts;
     private AccountManager am;
     private String Login = "";
+
+    private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         loadPrefs();
 
         if (Login != null && !Login.isEmpty())
-            setContentView(R.layout.activity_main);
+            loggedInPage();
         else
-            setContentView(R.layout.activity_login);
+            loginPage();
     }
 
     private void loadPrefs(){
@@ -53,6 +63,27 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(MainActivity.MY_PREFS_LOGIN,Login);
         invalidateOptionsMenu();
         editor.apply();
+    }
+
+    private void loggedInPage(){
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_share)
+                .setDrawerLayout(drawer)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    private void loginPage(){
+        setContentView(R.layout.activity_login);
     }
 
     public void ButtonPrihlasit(View view) {
@@ -91,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, "found: " + emailName, Toast.LENGTH_LONG).show();
                     Login = theOneAcc.name;
                     savePrefs();
-                    setContentView(R.layout.activity_main);
+                    loggedInPage();
                 }
 
             } else if (resultCode == RESULT_CANCELED) {
@@ -101,30 +132,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //TODO: ADD ICONS TO MENU
-        getMenuInflater().inflate(R.menu.main_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu (Menu menu) {
-        MenuItem logout = menu.findItem(R.id.menuLogout);
-        if (Login != null && !Login.isEmpty()){
-            logout.setEnabled(true);
-            // logout.getIcon().setAlpha(255);
-        }
-        else{
-            logout.setEnabled(false);
-            // logout.getIcon().setAlpha(130);
-        }
-
-        return true;
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
     }
 
     public void menuLogout(MenuItem item) {
         Login = "";
         savePrefs();
         setContentView(R.layout.activity_login);
+    }
+
+    public void TestButton(View view) {
     }
 }
