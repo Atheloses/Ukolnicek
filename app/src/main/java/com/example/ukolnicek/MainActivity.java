@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -26,11 +27,8 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity {
     public static final String MY_PREFS = "ukolnicek_prefs";
     public static final String MY_PREFS_LOGIN = "ukolnicek_prefs";
-    private static int REQUEST_CODE_PICK_ACCOUNT = 1;
     private String [] permissions = {"android.permission.INTERNET", "android.permission.GET_ACCOUNTS"};
     private Context context;
-    private Account[] accounts;
-    private AccountManager am;
     private String Login = "";
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -44,28 +42,6 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(permissions, requestCode);
         }
 
-        loadPrefs();
-
-        if (Login != null && !Login.isEmpty())
-            loggedInPage();
-        else
-            loginPage();
-    }
-
-    private void loadPrefs(){
-        SharedPreferences prefs = getSharedPreferences(MainActivity.MY_PREFS, MODE_PRIVATE);
-        Login = prefs.getString(MainActivity.MY_PREFS_LOGIN,"");
-        invalidateOptionsMenu();
-    }
-
-    private void savePrefs(){
-        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS, MODE_PRIVATE).edit();
-        editor.putString(MainActivity.MY_PREFS_LOGIN,Login);
-        invalidateOptionsMenu();
-        editor.apply();
-    }
-
-    private void loggedInPage(){
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,54 +56,44 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        loadPrefs();
+        Login();
     }
 
-    private void loginPage(){
-        setContentView(R.layout.activity_login);
+    private void Login(){
+        Intent myIntent = new Intent(getApplicationContext(),LoginActivity.class);
+        myIntent.putExtra("login",Login);
+        startActivityForResult(myIntent,69);
     }
 
-    public void ButtonPrihlasit(View view) {
-        am = AccountManager.get(this);
-        accounts = am.getAccounts();
+    private void loadPrefs(){
+        SharedPreferences prefs = getSharedPreferences(MainActivity.MY_PREFS, MODE_PRIVATE);
+        Login = prefs.getString(MainActivity.MY_PREFS_LOGIN,"");
 
+        invalidateOptionsMenu();
+    }
 
-        Intent intent = AccountManager.newChooseAccountIntent(
-                null,
-                null,
-                new String[] {"com.google", "com.google.android.legacyimap"},
-                null,
-                null,
-                null,
-                null);
+    private void savePrefs(){
+        SharedPreferences.Editor editor = getSharedPreferences(MY_PREFS, MODE_PRIVATE).edit();
+        editor.putString(MainActivity.MY_PREFS_LOGIN,Login);
+        editor.apply();
 
-        startActivityForResult(intent, REQUEST_CODE_PICK_ACCOUNT);
+        invalidateOptionsMenu();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PICK_ACCOUNT) {
+        if (requestCode == 69) {
             // Receiving a result from the AccountPicker
-            if (resultCode == RESULT_OK) {
-
-
-                String emailName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                Account theOneAcc = null;
-                for(Account acc : accounts){
-                    if(emailName.equals(acc.name))
-                        theOneAcc = acc;
-                }
-
-                if(theOneAcc!=null) {
-                    Toast.makeText(this, "found: " + emailName, Toast.LENGTH_LONG).show();
-                    Login = theOneAcc.name;
-                    savePrefs();
-                    loggedInPage();
-                }
-
-            } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Account not chosen", Toast.LENGTH_SHORT).show();
+            if (resultCode == RESULT_OK){
+                Login = data.getStringExtra("login");
+                ((TextView)findViewById(R.id.nav_header_subtit)).setText(Login);
+                savePrefs();
             }
+            else
+                finish();
         }
     }
 
@@ -141,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     public void menuLogout(MenuItem item) {
         Login = "";
         savePrefs();
-        setContentView(R.layout.activity_login);
+        Login();
     }
 
     public void TestButton(View view) {
