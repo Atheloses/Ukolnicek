@@ -1,16 +1,28 @@
 <resources>
     <string name="app_name">Ukolnicek</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Ukolnicek</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="nav_header_title">Úkolníček</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_logout">Logout</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_home">Domů</string>
+    <string name="menu_tasks">Úkoly</string>
+    <string name="menu_settings">Nastavení</string>
+    <string name="menu_logout">Odhlásit</string>
+    <string name="button_login">Přihlásit</string>
+    <string name="image_name">Image</string>
+    <string name="text_Deadline">Termín:</string>
+    <string name="text_name">Název:</string>
+    <string name="button_save">Uložit</string>
+    <string name="text_edit">Změnit záznam</string>
+    <string name="text_delete">Smazat záznam</string>
+    <string name="text_add_item">Přidat záznam</string>
+    <string name="text_remove_all">Smazat vše</string>
+    <string name="row_name">Název: %1$s</string>
+    <string name="row_desc">Čas: %1$s</string>
+    <string name="text_account_not_found">Účet nenalezen</string>
+    <string name="text_login">Přihlášení</string>
+    <string name="text_logged">Přihlášen</string>
+    <string name="text_created_new_succ">Vytvořen nový záznam</string>
+    <string name="text_created_new_fail">Záznam se nepovedlo vytvořit</string>
+    <string name="text_deleted_rows">Smazáno</string>
+    <string name="text_tasks_description">Seznam mých úkolů</string>
+    <string name="menu_background">Změnit pozadí</string>
 </resources>

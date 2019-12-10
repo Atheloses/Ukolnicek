@@ -1,4 +1,4 @@
-package com.example.ukolnicek;
+package com.example.tasks;
 
 import org.junit.Test;
 

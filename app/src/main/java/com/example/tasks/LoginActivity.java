@@ -1,4 +1,4 @@
-package com.example.ukolnicek;
+package com.example.tasks;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -6,12 +6,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class LoginActivity extends Activity {
-    private static int REQUEST_CODE_PICK_ACCOUNT = 1;
+    private static final int REQUEST_CODE_PICK_ACCOUNT = 1;
     private Account[] accounts;
-    private AccountManager am;
     private String Login = "";
 
     @Override
@@ -29,8 +29,36 @@ public class LoginActivity extends Activity {
         }
     }
 
-    public void ButtonPrihlasit(View view) {
-        am = AccountManager.get(this);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PICK_ACCOUNT) {
+            View parentLayout = findViewById(android.R.id.content);
+            // Receiving a result from the AccountPicker
+            if (resultCode == RESULT_OK) {
+                String emailName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                Account theOneAcc = null;
+                for(Account acc : accounts){
+                    if(emailName.equals(acc.name))
+                        theOneAcc = acc;
+                }
+
+                if(theOneAcc!=null) {
+                    Login = theOneAcc.name;
+
+                    Intent MyIntent = new Intent();
+                    MyIntent.putExtra("login",Login);
+                    setResult(RESULT_OK,MyIntent);
+                    finish();
+                }
+            } else if (resultCode == RESULT_CANCELED) {
+                Snackbar.make(parentLayout, getString(R.string.text_account_not_found), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public void onClickLogin(View view) {
+        AccountManager am = AccountManager.get(this);
         accounts = am.getAccounts();
 
 
@@ -44,37 +72,5 @@ public class LoginActivity extends Activity {
                 null);
 
         startActivityForResult(intent, REQUEST_CODE_PICK_ACCOUNT);
-    }
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PICK_ACCOUNT) {
-            // Receiving a result from the AccountPicker
-            if (resultCode == RESULT_OK) {
-
-
-                String emailName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                Account theOneAcc = null;
-                for(Account acc : accounts){
-                    if(emailName.equals(acc.name))
-                        theOneAcc = acc;
-                }
-
-                if(theOneAcc!=null) {
-                    Toast.makeText(this, "found: " + emailName, Toast.LENGTH_LONG).show();
-                    Login = theOneAcc.name;
-
-                    Intent MyIntent = new Intent();
-                    MyIntent.putExtra("login",Login);
-                    setResult(RESULT_OK,MyIntent);
-                    finish();
-                }
-            } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Account not chosen", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 }

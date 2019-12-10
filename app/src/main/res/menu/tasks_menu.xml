@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_tasks_1"
+        android:orderInCategory="100"
+        android:title="@string/text_add_item"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/item_tasks_2"
+        android:orderInCategory="100"
+        android:title="@string/text_remove_all"
+        app:showAsAction="never" />
+</menu>

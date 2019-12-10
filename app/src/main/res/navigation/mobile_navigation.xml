@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.ukolnicek.ui.home.HomeFragment"
+        android:name="com.example.tasks.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/home_fragment" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.ukolnicek.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_tasks"
+        android:name="com.example.tasks.ui.tasks.TasksFragment"
+        android:label="@string/menu_tasks"
+        tools:layout="@layout/tasks_fragment" />
 
     <fragment
-        android:id="@+id/nav_share"
-        android:name="com.example.ukolnicek.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        android:id="@+id/nav_settings"
+        android:name="com.example.tasks.ui.share.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/settings_fragment" />
 </navigation>

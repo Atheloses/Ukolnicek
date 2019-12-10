@@ -1,0 +1,94 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.tasks.TasksDetailActivity" >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:id="@+id/RL">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_name"
+            android:id="@+id/textViewName"
+            android:textSize="25sp"
+            android:layout_alignBottom="@+id/editTextName"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="100dp"
+            android:ems="10"
+            android:hint="@string/text_name"
+            android:inputType="text">
+        </EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_Deadline"
+            android:id="@+id/textViewDeadline"
+            android:textSize="25sp"
+            android:layout_alignBottom="@+id/linearLayout"
+            android:layout_alignParentStart="true" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextName"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="30dp">
+
+            <DatePicker
+                android:id="@+id/editTextDeadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX="0.60"
+                android:scaleY="0.60"
+                android:layout_marginStart="-50dp"
+                android:layout_marginTop="-30dp"
+                android:layout_marginEnd="-40dp"
+                android:layout_marginBottom="-30dp"
+                android:theme="@android:style/Theme.WithActionBar" />
+
+            <TimePicker
+                android:id="@+id/editTextDeadlineTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX="0.60"
+                android:scaleY="0.60"
+                android:layout_marginLeft="-20dp"
+                android:layout_marginTop="-30dp"
+                android:layout_marginRight="-20dp"
+                android:layout_marginBottom="-30dp"
+                android:theme="@android:style/Theme.WithActionBar" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:onClick="saveButtonAction"
+            android:text="@string/button_save" />
+
+    </RelativeLayout>
+</ScrollView>
