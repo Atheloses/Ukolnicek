@@ -1,9 +1,13 @@
 # Úkolníček
 
-Aplikace pro řízení složitějších úkolů, na kterých může pracovat více týmů i více uživatelů.
-
-- Připojení k databázi
-- Přepínání mezi úkoly gesty/ovládáním hlasitosi
-- Nastavení upozornění/budíku k termínu úkolu
-- Jednodužší správa úkolu dlouhým podržením
-- Uložení nastavení
+Funkce:
+- [x] SQLite
+- [ ] Gesta
+- [x] Přihlášení
+- [ ] Long Press
+- [x] Shared Preferences
+- [x] Dark Mode
+- [x] ListView
+- [x] Vlastní ikona
+- [ ] ?Překlad
+- [ ] ?Nastavení budíku
