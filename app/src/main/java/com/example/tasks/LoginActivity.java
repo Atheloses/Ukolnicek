@@ -17,6 +17,12 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getIntent().getExtras().getBoolean("LightMode",true))
+            setTheme(R.style.AppThemeLight);
+        else
+            setTheme(R.style.AppThemeDark);
+
         setContentView(R.layout.activity_login);
 
         Login = getIntent().getExtras().getString("login","");

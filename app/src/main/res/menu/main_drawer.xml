@@ -25,11 +25,5 @@
                 android:id="@+id/nav_logout"
                 android:title="@string/menu_logout"
                 android:onClick="menuLogout"/>
-
-        <item
-            android:id="@+id/nav_background"
-            android:title="@string/menu_background"
-            android:onClick="menuBackground"/>
-
     </group>
 </menu>

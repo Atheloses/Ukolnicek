@@ -15,8 +15,10 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.tasks.DBHelper;
+import com.example.tasks.MainActivity;
 import com.example.tasks.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -29,6 +31,7 @@ public class TasksFragment extends Fragment {
     private ListView itemListView;
     private Context context;
     private View view;
+    private boolean LightMode;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class TasksFragment extends Fragment {
 
         itemListView = view.findViewById(R.id.listView1);
         populateListView();
+        LightMode = ((MainActivity)getActivity()).LightMode;
 
         return view;
     }
@@ -81,7 +85,18 @@ public class TasksFragment extends Fragment {
 
         if (id == R.id.item_tasks_2)
         {
-            Snackbar.make(view.findViewById(android.R.id.content), getString(R.string.text_deleted_rows)+ db.removeAllTasks(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(view.findViewById(R.id.tasks_fragment), getString(R.string.text_deleted_rows)+ " "+db.removeAllTasks(), Snackbar.LENGTH_LONG).show();
+            try {
+                populateListView();
+                Fragment frg = null;
+                frg = getFragmentManager().findFragmentById(R.id.tasks_fragment);
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(frg);
+                ft.attach(frg);
+                ft.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -105,6 +120,7 @@ public class TasksFragment extends Fragment {
 
     private void startTaskDetailActivity(int id){
         Intent myIntent = new Intent(context, TasksDetailActivity.class);
+        myIntent.putExtra("LightMode", LightMode);
         myIntent.putExtra("id",id);
         startActivity(myIntent);
     }

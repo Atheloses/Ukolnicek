@@ -39,7 +39,16 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertTasks(String name, Date time) {
+    public int insertTasks(ArrayList<TasksEntry> input){
+        int count = 0;
+        for (TasksEntry entry : input)
+            if(insertTask(entry.Name,entry.Time))
+                count++;
+
+        return count;
+    }
+
+    public boolean insertTask(String name, Date time) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TASKS_NAME, name);

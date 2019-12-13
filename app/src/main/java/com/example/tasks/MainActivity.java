@@ -22,9 +22,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String MY_PREFS = "tasks_prefs";
     private static final String MY_PREFS_LOGIN = "tasks_prefs_login";
     private static final String MY_PREFS_BACKGROUND = "tasks_prefs_background";
-    private final String[] permissions = {"android.permission.INTERNET", "android.permission.GET_ACCOUNTS"};
+    private final String[] permissions = {"android.permission.INTERNET", "android.permission.GET_ACCOUNTS","android.permission.READ_EXTERNAL_STORAGE","android.permission.WRITE_EXTERNAL_STORAGE"};
     private String Login = "";
-    private boolean LightMode = true;
+    public boolean LightMode = true;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         loadPrefs();
         if (LightMode)
-            setTheme(R.style.AppTheme);
+            setTheme(R.style.AppThemeLight);
         else
             setTheme(R.style.AppThemeDark);
 
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private void Login() {
         Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
         myIntent.putExtra("login", Login);
+        myIntent.putExtra("LightMode", LightMode);
         startActivityForResult(myIntent, 69);
     }
 
@@ -110,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
         Login();
     }
 
-    public void menuBackground(MenuItem item) {
-        LightMode = !LightMode;
+    public void menuBackground(boolean lightMode) {
+        LightMode = lightMode;
         savePrefs();
 
         finish();

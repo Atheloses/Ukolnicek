@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ukolnicek</string>
+    <string name="app_name">Úkolníček</string>
     <string name="nav_header_title">Úkolníček</string>
 
     <string name="menu_home">Domů</string>
@@ -19,10 +19,10 @@
     <string name="row_desc">Čas: %1$s</string>
     <string name="text_account_not_found">Účet nenalezen</string>
     <string name="text_login">Přihlášení</string>
-    <string name="text_logged">Přihlášen</string>
+    <string name="text_logged">Přihlášen:</string>
     <string name="text_created_new_succ">Vytvořen nový záznam</string>
     <string name="text_created_new_fail">Záznam se nepovedlo vytvořit</string>
-    <string name="text_deleted_rows">Smazáno</string>
+    <string name="text_deleted_rows">Smazáno:</string>
     <string name="text_tasks_description">Seznam mých úkolů</string>
     <string name="menu_background">Změnit pozadí</string>
 </resources>

@@ -31,7 +31,12 @@ public class TasksDetailActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppTheme);
+
+        if (getIntent().getExtras().getBoolean("LightMode",true))
+            setTheme(R.style.AppThemeLight_ActionBar);
+        else
+            setTheme(R.style.AppThemeDark_ActionBar);
+
         setContentView(R.layout.tasks_detail_activity);
 
         nameTextView = findViewById(R.id.editTextName);
@@ -85,6 +90,7 @@ public class TasksDetailActivity extends AppCompatActivity{
 
         if(id_update>0){
             getMenuInflater().inflate(R.menu.tasks_detail_menu, menu);
+            super.onCreateOptionsMenu(menu);
         }
 
         return true;
@@ -133,7 +139,7 @@ public class TasksDetailActivity extends AppCompatActivity{
             finish();
         }
         else{
-            if(db.insertTasks(nameTextView.getText().toString(),cal.getTime()))
+            if(db.insertTask(nameTextView.getText().toString(),cal.getTime()))
                 Snackbar.make(view, getString(R.string.text_created_new_succ), Snackbar.LENGTH_LONG).show();
             else
                 Snackbar.make(view, getString(R.string.text_created_new_fail), Snackbar.LENGTH_LONG).show();

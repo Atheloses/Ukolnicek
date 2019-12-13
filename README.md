@@ -9,5 +9,7 @@ Funkce:
 - [x] Dark Mode
 - [x] ListView
 - [x] Vlastní ikona
+- [x] Export do XML
+- [x] Import z XML
 - [ ] ?Překlad
 - [ ] ?Nastavení budíku
