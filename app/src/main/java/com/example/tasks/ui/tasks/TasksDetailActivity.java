@@ -40,15 +40,11 @@ public class TasksDetailActivity extends AppCompatActivity{
         setContentView(R.layout.tasks_detail_activity);
 
         nameTextView = findViewById(R.id.editTextName);
-
         deadlineDatePicker = findViewById(R.id.editTextDeadline);
         deadlineTimePicker = findViewById(R.id.editTextDeadlineTime);
-        Calendar today = Calendar.getInstance();
         deadlineTimePicker.setIs24HourView(true);
-        deadlineTimePicker.setHour(today.get(Calendar.HOUR_OF_DAY));
-        deadlineTimePicker.setMinute(today.get(Calendar.MINUTE));
-        deadlineDatePicker.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
 
+        Calendar time = Calendar.getInstance();
         db = new DBHelper(this);
         Intent i = getIntent();
         if(i !=null)
@@ -57,19 +53,12 @@ public class TasksDetailActivity extends AppCompatActivity{
             if (value >0)
             {
                 id_update = value;
-                Cursor rs = db.getData(id_update);
-                rs.moveToFirst();
+                TasksEntry task = db.getTask(id_update);
 
-                String nameDB = rs.getString(rs.getColumnIndex("name"));
-
-                if (!rs.isClosed())
-                {
-                    rs.close();
-                }
                 Button b = findViewById(R.id.buttonSave);
                 b.setVisibility(View.INVISIBLE);
 
-                nameTextView.setText(nameDB);
+                nameTextView.setText(task.Name);
                 nameTextView.setEnabled(false);
                 nameTextView.setFocusable(false);
                 nameTextView.setClickable(false);
@@ -79,10 +68,13 @@ public class TasksDetailActivity extends AppCompatActivity{
                 deadlineDatePicker.setEnabled(false);
                 deadlineDatePicker.setFocusable(false);
                 deadlineDatePicker.setClickable(false);
-
-
+                time.setTime(task.Time);
             }
         }
+
+        deadlineTimePicker.setHour(time.get(Calendar.HOUR_OF_DAY));
+        deadlineTimePicker.setMinute(time.get(Calendar.MINUTE));
+        deadlineDatePicker.updateDate(time.get(Calendar.YEAR), time.get(Calendar.MONTH), time.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override
@@ -117,7 +109,7 @@ public class TasksDetailActivity extends AppCompatActivity{
         }
         if (id == R.id.Delete_Contact)
         {
-            db.deleteTasks(id_update);
+            db.deleteTask(id_update);
             finish();
         }
 
@@ -135,11 +127,11 @@ public class TasksDetailActivity extends AppCompatActivity{
         cal.set(Calendar.SECOND,0);
 
         if(id_update>0){
-            db.updateTasks(id_update,nameTextView.getText().toString(),cal.getTime());
+            db.updateTask(id_update,nameTextView.getText().toString(),cal.getTime());
             finish();
         }
         else{
-            if(db.insertTask(nameTextView.getText().toString(),cal.getTime()))
+            if(db.insertTask(nameTextView.getText().toString(),cal.getTime(),false))
                 Snackbar.make(view, getString(R.string.text_created_new_succ), Snackbar.LENGTH_LONG).show();
             else
                 Snackbar.make(view, getString(R.string.text_created_new_fail), Snackbar.LENGTH_LONG).show();

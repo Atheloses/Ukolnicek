@@ -18,6 +18,7 @@
         </activity>
         <activity android:name="com.example.tasks.LoginActivity" />
         <activity android:name="com.example.tasks.ui.tasks.TasksDetailActivity"/>
+        <receiver android:name=".AlarmReceiver" android:process=":remote" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />

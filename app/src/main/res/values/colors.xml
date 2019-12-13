@@ -6,4 +6,6 @@
     <attr name="bgColor" format="color"/>
     <attr name="textColor" format="color"/>
     <color name="ic_launcher_background">#FFFFFF</color>
+    <color name="lightRed">#22ff0000</color>
+    <color name="lightGreen">#2200ee00</color>
 </resources>

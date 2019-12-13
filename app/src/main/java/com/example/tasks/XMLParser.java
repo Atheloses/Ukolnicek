@@ -19,7 +19,7 @@ public class XMLParser {
         String output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<tasks>";
 
         for (TasksEntry currTask : listOfTasks)
-            output+="<task name=\""+currTask.Name+"\" time=\""+currTask.Time.getTime()+"\"/>";
+            output+="<task name=\""+currTask.Name+"\" time=\""+currTask.Time.getTime()+"\" finished=\""+currTask.Finished+"\"/>";
 
         output += "</tasks>";
         return output;
@@ -68,6 +68,7 @@ public class XMLParser {
 
         String name="";
         Date time=null;
+        Boolean finished=false;
 
         for (int i = 0; i < parser.getAttributeCount(); i++) {
 
@@ -76,10 +77,13 @@ public class XMLParser {
 
             if (parser.getAttributeName(i).equals("time"))
                 time = new Date(Long.parseLong(parser.getAttributeValue(i)));
+
+            if (parser.getAttributeName(i).equals("finished"))
+                finished = Boolean.parseBoolean(parser.getAttributeValue(i));
         }
 
         parser.next();
 
-        return new TasksEntry(0,name,time);
+        return new TasksEntry(0,name,time,finished);
     }
 }

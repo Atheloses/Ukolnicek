@@ -8,13 +8,17 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.tasks.ui.tasks.TasksEntry;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private final String[] permissions = {"android.permission.INTERNET", "android.permission.GET_ACCOUNTS","android.permission.READ_EXTERNAL_STORAGE","android.permission.WRITE_EXTERNAL_STORAGE"};
     private String Login = "";
     public boolean LightMode = true;
+    private Context context;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -41,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.AppThemeDark);
 
         setContentView(R.layout.activity_main);
+
+        context = getApplicationContext();
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -56,10 +64,36 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         Login();
+
+        checkIntent();
+    }
+
+    private void checkIntent(){
+
+        int id;
+        Intent i = getIntent();
+        if(i !=null)
+        {
+            int value = i.getIntExtra("id", 0);
+            if (value >0)
+            {
+
+                id = value;
+                DBHelper db = new DBHelper(context);
+                TasksEntry task = db.getTask(id);
+                Snackbar.make(findViewById(android.R.id.content), "ID: "+task.ID, 3000).show();
+            }
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.deleteNotificationChannel(i.getStringExtra("channel"));
+            }
+        }
     }
 
     private void Login() {
-        Intent myIntent = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent myIntent = new Intent(context, LoginActivity.class);
         myIntent.putExtra("login", Login);
         myIntent.putExtra("LightMode", LightMode);
         startActivityForResult(myIntent, 69);

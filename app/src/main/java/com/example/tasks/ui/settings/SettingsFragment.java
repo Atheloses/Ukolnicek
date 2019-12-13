@@ -21,16 +21,12 @@ import com.example.tasks.XMLParser;
 import com.example.tasks.ui.tasks.TasksEntry;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class SettingsFragment extends Fragment {
     public static final int PICKFILE_RESULT_CODE = 1;
@@ -110,7 +106,7 @@ public class SettingsFragment extends Fragment {
             Snackbar.make(view, "Export proběhl úspěšně: '"+fileName+"'",5000).show();
             FileOutputStream outputStream = new FileOutputStream(file);
             OutputStreamWriter myOutWriter = new OutputStreamWriter(outputStream);
-            myOutWriter.write(XMLParser.CreateXML(db.getAllTasks()));
+            myOutWriter.write(XMLParser.CreateXML(db.getTasks()));
             myOutWriter.close();
             outputStream.close();
 
