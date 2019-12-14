@@ -132,6 +132,7 @@ public class TasksFragment extends Fragment {
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(task.Time);
                         setAlarm(cal,task.Name);
+                        Snackbar.make(view.findViewById(R.id.tasks_fragment), "Připomenutí pro úkol '"+task.Name+"' nastaveno", Snackbar.LENGTH_LONG).show();
                         populateListView();
                     }
                 });

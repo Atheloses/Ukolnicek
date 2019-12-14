@@ -2,7 +2,7 @@
 
 Funkce:
 - [x] SQLite
-- [ ] Gesta
+- [x] Gesta
 - [x] Přihlášení
 - [x] Long Press
 - [x] Shared Preferences

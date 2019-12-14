@@ -1,9 +1,13 @@
 package com.example.tasks;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -16,11 +20,16 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.tasks.ui.tasks.TasksEntry;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private static final String MY_PREFS = "tasks_prefs";
@@ -30,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private String Login = "";
     public boolean LightMode = true;
     private Context context;
+    private int ID=-1;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -66,23 +76,23 @@ public class MainActivity extends AppCompatActivity {
         Login();
 
         checkIntent();
+
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                destination.addArgument("ID",new NavArgument.Builder().setDefaultValue(ID).build());
+                arguments = new Bundle();
+                arguments.putInt("ID",ID);
+            }
+        });
     }
 
     private void checkIntent(){
-
-        int id;
         Intent i = getIntent();
         if(i !=null)
         {
-            int value = i.getIntExtra("id", 0);
-            if (value >0)
-            {
-
-                id = value;
-                DBHelper db = new DBHelper(context);
-                TasksEntry task = db.getTask(id);
-                Snackbar.make(findViewById(android.R.id.content), "ID: "+task.ID, 3000).show();
-            }
+            ID = i.getIntExtra("id", -1);
+            findViewById(R.id.nav_view).setTag(ID);
 
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 NotificationManager notificationManager =
